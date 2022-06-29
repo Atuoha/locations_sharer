@@ -13,7 +13,7 @@ class ImageUploader extends StatefulWidget {
 }
 
 class _ImageUploaderState extends State<ImageUploader> {
-  final File _storedImage = File('');
+  XFile? _storedImage;
 
   Future<void> _selectCamera() async {
     // ignore: unused_local_variable
@@ -21,6 +21,9 @@ class _ImageUploaderState extends State<ImageUploader> {
       source: ImageSource.camera,
       maxWidth: 600,
     );
+    setState(() {
+      _storedImage = pickedFile;
+    });
   }
 
   Future<void> _selectGallary() async {
@@ -29,6 +32,9 @@ class _ImageUploaderState extends State<ImageUploader> {
       source: ImageSource.gallery,
       maxWidth: 600,
     );
+    setState(() {
+      _storedImage = pickedFile;
+    });
   }
 
   @override
@@ -39,6 +45,13 @@ class _ImageUploaderState extends State<ImageUploader> {
       return showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: placeData.lightMode ? primaryColor : accentColor,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(30)),
           backgroundColor: placeData.lightMode ? Colors.white : Colors.black38,
           title: Center(
             child: Text(
@@ -53,32 +66,32 @@ class _ImageUploaderState extends State<ImageUploader> {
               style: ElevatedButton.styleFrom(
                 primary: placeData.lightMode ? primaryColor : accentColor,
               ),
-              label: Text(
+              label: const Text(
                 'Choose from gallary',
                 style: TextStyle(
-                  color: placeData.lightMode ? Colors.white : Colors.black38,
+                  color: Colors.white,
                 ),
               ),
               onPressed: _selectGallary,
-              icon: Icon(
+              icon: const Icon(
                 Icons.image,
-                color: placeData.lightMode ? Colors.white : Colors.black38,
+                color: Colors.white,
               ),
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 primary: placeData.lightMode ? primaryColor : accentColor,
               ),
-              label: Text(
+              label: const Text(
                 'Choose from camera',
                 style: TextStyle(
-                  color: placeData.lightMode ? Colors.white : Colors.black38,
+                  color: Colors.white,
                 ),
               ),
               onPressed: _selectCamera,
-              icon: Icon(
+              icon: const Icon(
                 Icons.camera_alt,
-                color: placeData.lightMode ? Colors.white : Colors.black38,
+                color: Colors.white,
               ),
             )
           ],
@@ -99,9 +112,9 @@ class _ImageUploaderState extends State<ImageUploader> {
             ),
           ),
           // ignore: unnecessary_null_comparison
-          child: _storedImage.isAbsolute
+          child: _storedImage != null
               ? Image.file(
-                  _storedImage,
+                  File(_storedImage!.path),
                   fit: BoxFit.cover,
                   width: double.infinity,
                 )
@@ -117,21 +130,22 @@ class _ImageUploaderState extends State<ImageUploader> {
                   ),
                 ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         ElevatedButton.icon(
-          label: Text(
-            'Take a photo',
-            style: TextStyle(
-              color: placeData.lightMode ? Colors.white : Colors.black38,
-            ),
+          label: const Text(
+            'Upload a Photo',
+            style: TextStyle(color: Colors.white),
           ),
           style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
             primary: placeData.lightMode ? primaryColor : accentColor,
           ),
-          icon: Icon(
-            Icons.camera_alt,
+          icon: const Icon(
+            Icons.camera,
             size: 40,
-            color: placeData.lightMode ? Colors.white : Colors.black38,
+            color: Colors.white,
           ),
           onPressed: showCamera,
         )

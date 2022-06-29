@@ -53,48 +53,53 @@ class _AddPlaceState extends State<AddPlace> {
       backgroundColor: placeData.lightMode ? Colors.white : Colors.black38,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter Title';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  title = value;
-                });
-              },
-              decoration: InputDecoration(
-                icon: Icon(
-                  Icons.title,
-                  color: placeData.lightMode ? Colors.black38 : Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const ImageUploader(),
+              const SizedBox(height: 10),
+              TextFormField(
+                style: TextStyle(
+                  color: placeData.lightMode ? Colors.white : Colors.black38,
                 ),
-                hintText: 'Enter Title',
-                hintStyle: TextStyle(
-                  color: placeData.lightMode ? Colors.black38 : Colors.white,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: placeData.lightMode ? primaryColor : accentColor,
-                    width: 1,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Location Title';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    title = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.title,
+                    color: placeData.lightMode ? Colors.black38 : Colors.white,
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: placeData.lightMode ? primaryColor : accentColor,
-                    width: 2,
+                  hintText: 'Enter Location Title',
+                  hintStyle: TextStyle(
+                    color: placeData.lightMode ? Colors.black38 : Colors.white,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: placeData.lightMode ? primaryColor : accentColor,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: placeData.lightMode ? primaryColor : accentColor,
+                      width: 2,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            ImageUploader()
-          ],
+            ],
+          ),
         ),
       ),
     );
