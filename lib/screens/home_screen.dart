@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_fit/constants/color.dart';
+import 'package:native_fit/screens/add_place.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/place.dart';
@@ -17,37 +18,35 @@ class HomeScreen extends StatelessWidget {
     );
     var placeData = Provider.of<PlaceData>(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: placeData.lightMode ? primaryColor : accentColor,
+        onPressed: () {
+          Navigator.of(context).pushNamed(AddPlace.routeName);
+        },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
       appBar: AppBar(
-        backgroundColor:  placeData.lightMode ? primaryColor : accentColor,
+        backgroundColor: placeData.lightMode ? primaryColor : accentColor,
         leading: const Icon(
           Icons.pin_drop,
           color: Colors.white,
         ),
-        title: const Text('Places'),
+        title: const Text('Favorite Places'),
         actions: [
-           GestureDetector(
-            onTap: () {
-              placeData.toggleMode();
-            },
-            child: Icon(
-              placeData.lightMode ? Icons.light_mode : Icons.dark_mode,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child:  Padding(
-              padding: const EdgeInsets.all(3.0),
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                placeData.toggleMode();
+              },
               child: Icon(
-                Icons.add,
-                color:  placeData.lightMode ? primaryColor : accentColor,
+                placeData.lightMode ? Icons.light_mode : Icons.dark_mode,
               ),
             ),
           ),
-         
         ],
       ),
       backgroundColor: placeData.lightMode ? Colors.white : Colors.black38,

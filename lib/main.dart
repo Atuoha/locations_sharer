@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/screens/add_place.dart';
 import '/providers/place.dart';
 import 'package:provider/provider.dart';
 import '/constants/color.dart';
@@ -21,10 +22,11 @@ class LocationSharer extends StatelessWidget {
         title: 'Location Sharer',
         theme: ThemeData(
           primaryColor: accentColor,
+          primarySwatch: primaryColor
         ),
         home: const HomeScreen(),
         routes: {
-          
+          AddPlace.routeName: (context)=> const AddPlace(),
         },
       ),
     );
