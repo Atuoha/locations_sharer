@@ -4,6 +4,7 @@ import 'package:native_fit/constants/color.dart';
 import 'package:provider/provider.dart';
 import '../providers/place.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class AddPlace extends StatefulWidget {
   static const routeName = '/add-place';
@@ -14,7 +15,31 @@ class AddPlace extends StatefulWidget {
 }
 
 class _AddPlaceState extends State<AddPlace> {
-  String title = '';
+  var textController = TextEditingController();
+  File imageFile = File('');
+
+  void selectedImage(File pickedFile) {
+    setState(() {
+      imageFile = pickedFile;
+    });
+  }
+
+  void submitDetails() {
+    if (textController.text.isEmpty || imageFile == null) {
+      return;
+    } else {
+      // Adding Place to List
+      Provider.of<PlaceData>(
+        context,
+        listen: false,
+      ).addPlace(
+        textController.text,
+        imageFile,
+      );
+
+      Navigator.of(context).pop();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,23 +81,13 @@ class _AddPlaceState extends State<AddPlace> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const ImageUploader(),
+              ImageUploader(selectedImage: selectedImage),
               const SizedBox(height: 10),
               TextFormField(
+                controller: textController,
                 style: TextStyle(
                   color: placeData.lightMode ? Colors.white : Colors.black38,
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter Location Title';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    title = value;
-                  });
-                },
                 decoration: InputDecoration(
                   icon: Icon(
                     Icons.title,

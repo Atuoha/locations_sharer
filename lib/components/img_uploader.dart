@@ -4,9 +4,18 @@ import '../constants/color.dart';
 import '../providers/place.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspaths;
+
+enum Source { camera, gallery }
 
 class ImageUploader extends StatefulWidget {
-  const ImageUploader({Key? key}) : super(key: key);
+  final Function(File) selectedImage;
+
+  const ImageUploader({
+    Key? key,
+    required this.selectedImage,
+  }) : super(key: key);
 
   @override
   State<ImageUploader> createState() => _ImageUploaderState();
@@ -15,43 +24,51 @@ class ImageUploader extends StatefulWidget {
 class _ImageUploaderState extends State<ImageUploader> {
   XFile? _storedImage;
 
-  Future<void> _selectCamera() async {
-    // ignore: unused_local_variable
-    final XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxWidth: 600,
-    );
-    setState(() {
-      _storedImage = pickedFile;
-    });
-  }
+  // Selecting Image Source
+  Future<void> _selectSource(Source source) async {
+    final XFile? pickedFile;
+    switch (source) {
+      case Source.camera:
+        pickedFile = await ImagePicker().pickImage(
+          source: ImageSource.camera,
+          maxWidth: 600,
+        );
+        break;
 
-  Future<void> _selectGallary() async {
-    // ignore: unused_local_variable
-    final XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 600,
-    );
+      case Source.gallery:
+        pickedFile = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+          maxWidth: 600,
+        );
+        break;
+    }
+
     setState(() {
       _storedImage = pickedFile;
     });
+    var appDir = await syspaths.getApplicationDocumentsDirectory();
+    var fileName = path.basename(pickedFile!.path);
+    File file = File(pickedFile.path);
+    final savedImage = await file.copy('${appDir.path}/$fileName');
+    widget.selectedImage(savedImage);
   }
 
   @override
   Widget build(BuildContext context) {
     var placeData = Provider.of<PlaceData>(context);
 
-    Future showCamera() {
+    Future selectImageSource() {
       return showDialog(
         context: context,
         builder: (context) => AlertDialog(
           elevation: 3,
           shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: placeData.lightMode ? primaryColor : accentColor,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(30)),
+            side: BorderSide(
+              color: placeData.lightMode ? primaryColor : accentColor,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
           backgroundColor: placeData.lightMode ? Colors.white : Colors.black38,
           title: Center(
             child: Text(
@@ -72,7 +89,10 @@ class _ImageUploaderState extends State<ImageUploader> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: _selectGallary,
+              onPressed: () {
+                _selectSource(Source.gallery);
+                Navigator.of(context).pop();
+              },
               icon: const Icon(
                 Icons.image,
                 color: Colors.white,
@@ -88,7 +108,10 @@ class _ImageUploaderState extends State<ImageUploader> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: _selectCamera,
+              onPressed: () {
+                _selectSource(Source.camera);
+                Navigator.of(context).pop();
+              },
               icon: const Icon(
                 Icons.camera_alt,
                 color: Colors.white,
@@ -147,7 +170,7 @@ class _ImageUploaderState extends State<ImageUploader> {
             size: 40,
             color: Colors.white,
           ),
-          onPressed: showCamera,
+          onPressed: selectImageSource,
         )
       ],
     );

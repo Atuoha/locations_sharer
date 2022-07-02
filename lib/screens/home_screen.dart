@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
           Icons.pin_drop,
           color: Colors.white,
         ),
-        title: const Text('Favorite Places'),
+        title: const Text('Places'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -50,14 +50,25 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       backgroundColor: placeData.lightMode ? Colors.white : Colors.black38,
-      body: Column(
-        children: const [
-          Center(
-            child: CircularProgressIndicator(
-              color: primaryColor,
-            ),
-          ),
-        ],
+      body: Consumer<PlaceData>(
+        builder: (context, data, child) => data.getPlaces().isEmpty
+            ? Center(
+                child: Column(
+                  children: [
+                    Image.asset('assets/images/img_place.png'),
+                    const Text('No Places Found!')
+                  ],
+                ),
+              )
+            : GridView.count(
+                crossAxisCount: 2,
+                children: data
+                    .getPlaces()
+                    .map(
+                      (data) => Text(''),
+                    )
+                    .toList(),
+              ),
       ),
     );
   }
