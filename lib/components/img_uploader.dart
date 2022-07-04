@@ -51,7 +51,7 @@ class _ImageUploaderState extends State<ImageUploader> {
       _storedImage = pickedFile;
     });
     var appDir = await syspaths.getApplicationDocumentsDirectory();
-    var fileName = path.basename(pickedFile!.path);
+    var fileName = path.basename(pickedFile.path);
     File file = File(pickedFile.path);
     final savedImage = await file.copy('${appDir.path}/$fileName');
     widget.selectedImage(savedImage);

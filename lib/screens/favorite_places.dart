@@ -40,22 +40,21 @@ class FavoriteScreen extends StatelessWidget {
       backgroundColor: placeData.lightMode ? Colors.white : Colors.black38,
       body: Consumer<PlaceData>(
         builder: (context, data, child) => data.getFavPlaces().isEmpty
-            ? Center(
-                child: Column(
-                  children: [
-                    Image.asset(placeData.lightMode
-                        ? 'assets/images/b_light.png'
-                        : 'assets/images/b_dark.png',),
-                    Text(
-                      'No Favorite Places Found! Try Adding one',
-                      style: TextStyle(
-                        color:
-                            placeData.lightMode ? Colors.black54 : Colors.white,
-                      ),
-                    )
-                  ],
-                ),
-              )
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(placeData.lightMode
+                    ? 'assets/images/b_light.png'
+                    : 'assets/images/b_dark.png',),
+                Text(
+                  'No Favorite Place Found! Try Adding one',
+                  style: TextStyle(
+                    color:
+                        placeData.lightMode ? Colors.black54 : Colors.white,
+                  ),
+                )
+              ],
+            )
             : GridView.count(
                 padding: const EdgeInsets.all(20),
                 mainAxisSpacing: 10,

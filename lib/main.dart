@@ -6,6 +6,7 @@ import '/providers/place.dart';
 import 'package:provider/provider.dart';
 import '/constants/color.dart';
 import '/screens/home_screen.dart';
+import 'screens/startup_screen.dart';
 
 void main() {
   runApp(const LocationSharer());
@@ -16,21 +17,21 @@ class LocationSharer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-      create: (context)=> PlaceData(),
-      child: MaterialApp(    
+      create: (context) => PlaceData(),
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Location Sharer',
         theme: ThemeData(
           primaryColor: accentColor,
           // primarySwatch: primaryColor
         ),
-        home: const HomeScreen(),
+        home: const Startup(),
         routes: {
-          AddPlace.routeName: (context)=> const AddPlace(),
-          FavoriteScreen.routeName: (context)=> const FavoriteScreen(),
-          PlaceDetails.routeName: (context)=> PlaceDetails(),
+          HomeScreen.routeName: (context) => const HomeScreen(),
+          AddPlace.routeName: (context) => const AddPlace(),
+          FavoriteScreen.routeName: (context) => const FavoriteScreen(),
+          PlaceDetails.routeName: (context) => const PlaceDetails(),
         },
       ),
     );
