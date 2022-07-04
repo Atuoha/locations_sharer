@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
 
-const primaryColor = Colors.teal;
-const accentColor = Color.fromARGB(255, 13, 44, 41);
+const primaryColor = Color(0xFF963200);
+const accentColor = Color(0xFF2C100D);

@@ -29,13 +29,13 @@ class SinglePlace extends StatelessWidget {
         color: placeData.lightMode ? Colors.white : Colors.black54,
         border: Border.all(
           width: 2,
-          color: primaryColor,
+          color: placeData.lightMode ? primaryColor : accentColor,
         ),
       ),
       child: Stack(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             child: Image.file(
               imageAsset,
               fit: BoxFit.cover,
@@ -52,7 +52,7 @@ class SinglePlace extends StatelessWidget {
               },
               child: Icon(
                 placeData.checkFav(id) ? Icons.favorite : Icons.favorite_border,
-                color: Colors.red,
+                color: placeData.lightMode ? primaryColor : accentColor,
               ),
             ),
           ),
@@ -67,16 +67,16 @@ class SinglePlace extends StatelessWidget {
               ),
             ),
           ),
-              Positioned(
+          Positioned(
             bottom: 6,
             right: 10,
             child: GestureDetector(
               onTap: () {
                 placeData.deletePlace(id);
               },
-              child: const Icon(
-              Icons.delete_forever,
-                color: Colors.red,
+              child: Icon(
+                Icons.delete_forever,
+                color: placeData.lightMode ? primaryColor : accentColor,
               ),
             ),
           ),

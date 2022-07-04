@@ -16,28 +16,37 @@ class PlaceData extends ChangeNotifier {
     return [..._places];
   }
 
-  List favoritePlaces = [];
+  final List _favoritePlaces = [];
+
+  List getFavPlaces() {
+    return [..._favoritePlaces];
+  }
+
+  Place getPlaceById(String id) {
+    return _places.firstWhere((place) => place.id == id);
+  }
 
   void toggleToFav(String id) {
     var place = _places.firstWhere((place) => place.id == id);
     switch (checkFav(id)) {
       case true:
-        favoritePlaces.remove(place);
+        _favoritePlaces.remove(place);
         break;
 
       case false:
-        favoritePlaces.add(place);
+        _favoritePlaces.add(place);
         break;
     }
     notifyListeners();
   }
 
   bool checkFav(String id) {
-    return favoritePlaces.any((place) => place.id == id);
+    return _favoritePlaces.any((place) => place.id == id);
   }
 
   void deletePlace(String id) {
-    return _places.removeWhere((place) => place.id == id);
+    _places.removeWhere((place) => place.id == id);
+    notifyListeners();
   }
 
   void addPlace(String title, File image) {
@@ -48,7 +57,6 @@ class PlaceData extends ChangeNotifier {
       location: null,
     );
     _places.add(place);
-    print(_places);
     notifyListeners();
   }
 }

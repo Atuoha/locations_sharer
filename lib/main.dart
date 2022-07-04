@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:native_fit/screens/favorite_places.dart';
+import 'package:native_fit/screens/place_details.dart';
 import '/screens/add_place.dart';
 import '/providers/place.dart';
 import 'package:provider/provider.dart';
@@ -22,11 +24,13 @@ class LocationSharer extends StatelessWidget {
         title: 'Location Sharer',
         theme: ThemeData(
           primaryColor: accentColor,
-          primarySwatch: primaryColor
+          // primarySwatch: primaryColor
         ),
         home: const HomeScreen(),
         routes: {
           AddPlace.routeName: (context)=> const AddPlace(),
+          FavoriteScreen.routeName: (context)=> const FavoriteScreen(),
+          PlaceDetails.routeName: (context)=> PlaceDetails(),
         },
       ),
     );

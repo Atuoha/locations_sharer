@@ -43,6 +43,10 @@ class _ImageUploaderState extends State<ImageUploader> {
         break;
     }
 
+    if (pickedFile == null) {
+      return;
+    }
+
     setState(() {
       _storedImage = pickedFile;
     });
