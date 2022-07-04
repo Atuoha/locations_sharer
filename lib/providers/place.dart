@@ -36,6 +36,10 @@ class PlaceData extends ChangeNotifier {
     return favoritePlaces.any((place) => place.id == id);
   }
 
+  void deletePlace(String id) {
+    return _places.removeWhere((place) => place.id == id);
+  }
+
   void addPlace(String title, File image) {
     var place = Place(
       id: DateTime.now().toString(),

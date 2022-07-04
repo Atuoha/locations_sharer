@@ -52,7 +52,7 @@ class _AddPlaceState extends State<AddPlace> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: placeData.lightMode ? primaryColor : accentColor,
-        onPressed: () {},
+        onPressed: submitDetails,
         child: const Icon(
           Icons.save,
           color: Colors.white,
@@ -86,7 +86,7 @@ class _AddPlaceState extends State<AddPlace> {
               TextFormField(
                 controller: textController,
                 style: TextStyle(
-                  color: placeData.lightMode ? Colors.white : Colors.black38,
+                  color: placeData.lightMode ? Colors.black38 : Colors.white,
                 ),
                 decoration: InputDecoration(
                   icon: Icon(

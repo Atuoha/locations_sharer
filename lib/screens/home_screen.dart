@@ -4,6 +4,7 @@ import 'package:native_fit/constants/color.dart';
 import 'package:native_fit/screens/add_place.dart';
 import 'package:provider/provider.dart';
 
+import '../components/single_place.dart';
 import '../providers/place.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -61,11 +62,18 @@ class HomeScreen extends StatelessWidget {
                 ),
               )
             : GridView.count(
+              padding: const EdgeInsets.all(20),
+              mainAxisSpacing: 10,
+              crossAxisSpacing:10,
                 crossAxisCount: 2,
                 children: data
                     .getPlaces()
                     .map(
-                      (data) => Text(''),
+                      (data) => SinglePlace(
+                        id: data.id,
+                        title: data.title,
+                        imageAsset: data.image,
+                      ),
                     )
                     .toList(),
               ),
