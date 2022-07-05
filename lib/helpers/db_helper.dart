@@ -3,14 +3,15 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
-  // databse creation
+
+  // database creation
   static Future<Database> database() async {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(
-      path.join(dbPath, 'location.db'),
+      path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
-        return db.execute(
-          'CREATE table user_locations(id TEXT PRIMARY KEY, name TEXT, image TEXT)',
+        return  db.execute(
+          'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)',
         );
       },
       version: 1,
@@ -18,7 +19,7 @@ class DBHelper {
   }
 
   // insertion
-  static Future<void> insert(String table, Map<String, dynamic> data) async {
+  static Future<void> insert(String table, Map<String, Object> data) async {
     final db = await DBHelper.database();
     db.insert(
       table,
@@ -28,14 +29,20 @@ class DBHelper {
   }
 
   // fetch
-  static Future<List<Map<String, dynamic>>> fetch(String table) async {
+  static Future<List<Map<String, dynamic>>> fetchData(String table) async {
     final db = await DBHelper.database();
     return db.query(table);
   }
 
   // delete
-  static Future<void> delete(String table) async {
+  static Future<int> delete(String table, String id) async {
     final db = await DBHelper.database();
-    db.delete(table);
+    return db.delete(table, where: 'id = ?', whereArgs: [id]);
+  }
+
+  // Close the database
+  static Future<void> close() async {
+    final db = await DBHelper.database();
+    db.close();
   }
 }

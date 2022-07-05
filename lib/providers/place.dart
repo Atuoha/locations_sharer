@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:native_fit/helpers/db_helper.dart';
 import 'dart:io';
-
 import '../models/place.dart';
 
 class PlaceData extends ChangeNotifier {
@@ -17,9 +16,9 @@ class PlaceData extends ChangeNotifier {
     return [..._places];
   }
 
-  // fetching sqlite
-  Future<void> fetchPlacesFromDB() async {
-    final data = await DBHelper.fetch('locations');
+  // fetching from sqlite
+  Future<void> fetchAndSetData() async {
+    final data = await DBHelper.fetchData('user_places');
     _places = data
         .map(
           (item) => Place(
@@ -33,6 +32,10 @@ class PlaceData extends ChangeNotifier {
         )
         .toList();
     notifyListeners();
+    
+    // for (var place in _places) {
+    //   print(place.title);
+    // }
   }
 
   final List _favoritePlaces = [];
@@ -67,6 +70,9 @@ class PlaceData extends ChangeNotifier {
     _places.removeWhere((place) => place.id == id);
     _favoritePlaces.removeWhere((place) => place.id == id);
     notifyListeners();
+
+    // deletion from database
+    DBHelper.delete('user_places', id);
   }
 
   void addPlace(String title, File image) {
@@ -78,10 +84,15 @@ class PlaceData extends ChangeNotifier {
     );
     _places.add(place);
     notifyListeners();
-    DBHelper.insert('places', {
-      'id': place.id,
-      'title': place.title,
-      'image': place.image.path,
-    });
+
+    // insertion to database
+    DBHelper.insert(
+      'user_places',
+      {
+        'id': place.id,
+        'title': place.title,
+        'image': place.image.path,
+      },
+    );
   }
 }

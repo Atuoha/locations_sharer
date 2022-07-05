@@ -37,7 +37,6 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        // backgroundColor: placeData.lightMode ? primaryColor : accentColor,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Icon(
@@ -94,13 +93,9 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder(
-              future: placeData.fetchPlacesFromDB(),
-              builder: (context, snapShot) => snapShot.connectionState ==
-                      ConnectionState.waiting
-                  ? CircularProgressIndicator(
-                      color: placeData.lightMode ? primaryColor : accentColor,
-                    )
-                  : Consumer<PlaceData>(
+              future: placeData.fetchAndSetData(),
+              builder: (context, snapshot) => 
+                   Consumer<PlaceData>(
                       builder: (context, data, child) =>
                           data.getPlaces().isEmpty
                               ? Column(
@@ -123,7 +118,9 @@ class HomeScreen extends StatelessWidget {
                                 )
                               : GridView.count(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 5),
+                                    horizontal: 20,
+                                    vertical: 5,
+                                  ),
                                   mainAxisSpacing: 10,
                                   crossAxisSpacing: 10,
                                   crossAxisCount: 2,
@@ -147,7 +144,12 @@ class HomeScreen extends StatelessWidget {
                                       )
                                       .toList(),
                                 ),
-                    ),
+                    )
+                  // : Center(
+                  //     child: CircularProgressIndicator(
+                  //       color: placeData.lightMode ? primaryColor : accentColor,
+                  //     ),
+                  //   ),
             ),
           ),
         ],
