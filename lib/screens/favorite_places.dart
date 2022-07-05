@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_fit/constants/color.dart';
-import 'package:native_fit/screens/add_place.dart';
 import 'package:provider/provider.dart';
-
 import '../components/single_place.dart';
 import '../providers/place.dart';
 
@@ -42,19 +40,21 @@ class FavoriteScreen extends StatelessWidget {
         builder: (context, data, child) => data.getFavPlaces().isEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(placeData.lightMode
-                    ? 'assets/images/b_light.png'
-                    : 'assets/images/b_dark.png',),
-                Text(
-                  'No Favorite Place Found! Try Adding one',
-                  style: TextStyle(
-                    color:
-                        placeData.lightMode ? Colors.black54 : Colors.white,
+                children: [
+                  Image.asset(
+                    placeData.lightMode
+                        ? 'assets/images/b_light.png'
+                        : 'assets/images/b_dark.png',
                   ),
-                )
-              ],
-            )
+                  Text(
+                    'No Favorite Place Found! Try Adding one',
+                    style: TextStyle(
+                      color:
+                          placeData.lightMode ? Colors.black54 : Colors.white,
+                    ),
+                  )
+                ],
+              )
             : GridView.count(
                 padding: const EdgeInsets.all(20),
                 mainAxisSpacing: 10,

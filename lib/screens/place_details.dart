@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import '../constants/color.dart';
 import '../providers/place.dart';
 
@@ -87,14 +86,15 @@ class _PlaceDetailsState extends State<PlaceDetails> {
             ),
           ),
           Container(
-              alignment: Alignment.topLeft,
-              child: Text(
-                place.title,
-                style: TextStyle(
-                  color: placeData.lightMode ? Colors.black54 : Colors.white,
-                  fontSize: 28,
-                ),
-              ))
+            alignment: Alignment.topLeft,
+            child: Text(
+              place.title,
+              style: TextStyle(
+                color: placeData.lightMode ? Colors.black54 : Colors.white,
+                fontSize: 28,
+              ),
+            ),
+          )
         ],
       ),
     );

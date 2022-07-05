@@ -21,24 +21,36 @@ class PlaceData extends ChangeNotifier {
     final data = await DBHelper.fetchData('user_places');
     _places = data
         .map(
-          (item) => Place(
-            id: item['id'],
-            title: item['title'],
+          (place) => Place(
+            id: place['id'],
+            title: place['title'],
+            isFavorite: place['isFavorite'],
             location: null,
             image: File(
-              item['image'],
+              place['image'],
             ),
           ),
         )
         .toList();
+
+    // adding items with isFavorite == 1 to _favoitePlaces
+    _favoritePlaces = data.map((place) {
+      if (place['isFavorite'] == 1) {
+        Place(
+          id: place['id'],
+          title: place['title'],
+          isFavorite: place['isFavorite'],
+          location: null,
+          image: File(
+            place['image'],
+          ),
+        );
+      }
+    }).toList();
     notifyListeners();
-    
-    // for (var place in _places) {
-    //   print(place.title);
-    // }
   }
 
-  final List _favoritePlaces = [];
+  List _favoritePlaces = [];
 
   List getFavPlaces() {
     return [..._favoritePlaces];
@@ -48,22 +60,38 @@ class PlaceData extends ChangeNotifier {
     return _places.firstWhere((place) => place.id == id);
   }
 
+  // SQLLITE VERSION
   void toggleToFav(String id) {
-    var place = _places.firstWhere((place) => place.id == id);
+    var status = 0;
     switch (checkFav(id)) {
       case true:
-        _favoritePlaces.remove(place);
+        status = 0;
         break;
-
       case false:
-        _favoritePlaces.add(place);
+        status = 1;
         break;
+      default:
     }
+    DBHelper.toggleFavorite(id, status);
     notifyListeners();
+
+    print(status);
   }
 
   bool checkFav(String id) {
-    return _favoritePlaces.any((place) => place.id == id);
+    var place = _places.firstWhere((place) => place.id == id);
+    bool status = false;
+    switch (place.isFavorite) {
+      case 0:
+        status = false;
+        break;
+
+      case 1:
+        status = true;
+        break;
+      default:
+    }
+    return status;
   }
 
   void deletePlace(String id) {

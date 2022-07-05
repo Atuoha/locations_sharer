@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../constants/color.dart';
 import '../providers/place.dart';
 
@@ -62,7 +60,7 @@ class SinglePlace extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 18, 
                 color: placeData.lightMode ? Colors.black54 : Colors.white,
               ),
             ),

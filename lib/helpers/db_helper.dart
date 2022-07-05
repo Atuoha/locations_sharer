@@ -3,18 +3,26 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
-
   // database creation
   static Future<Database> database() async {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(
       path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
-        return  db.execute(
-          'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)',
+        return db.execute(
+          'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT, isFavorite num)',
         );
       },
       version: 1,
+    );
+  }
+
+  // toggleFavorite
+  static Future<void> toggleFavorite(String id, int status) async {
+    final db = await DBHelper.database();
+     db.rawUpdate(
+      'UPDATE user_places SET isFavorite = ? WHERE id = ?',
+      [status, id],
     );
   }
 
