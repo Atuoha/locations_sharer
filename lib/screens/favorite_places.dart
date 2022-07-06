@@ -4,6 +4,7 @@ import 'package:native_fit/constants/color.dart';
 import 'package:provider/provider.dart';
 import '../components/single_place.dart';
 import '../providers/place.dart';
+import 'place_details.dart';
 
 class FavoriteScreen extends StatelessWidget {
   static const routeName = '/favorites';
@@ -37,7 +38,7 @@ class FavoriteScreen extends StatelessWidget {
       ),
       backgroundColor: placeData.lightMode ? Colors.white : Colors.black38,
       body: Consumer<PlaceData>(
-        builder: (context, data, child) => data.getFavPlaces().isEmpty
+        builder: (context, data, child) => placeData.getFavPlaces().isEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -63,10 +64,18 @@ class FavoriteScreen extends StatelessWidget {
                 children: data
                     .getFavPlaces()
                     .map(
-                      (data) => SinglePlace(
-                        id: data.id,
-                        title: data.title,
-                        imageAsset: data.image,
+                      (data) => GestureDetector(
+                        onTap: () => Navigator.of(context).pushNamed(
+                          PlaceDetails.routeName,
+                          arguments: {
+                            'id': data.id,
+                          },
+                        ),
+                        child: SinglePlace(
+                          id: data.id,
+                          title: data.title,
+                          imageAsset: data.image,
+                        ),
                       ),
                     )
                     .toList(),

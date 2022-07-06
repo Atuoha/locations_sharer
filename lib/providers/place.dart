@@ -16,6 +16,12 @@ class PlaceData extends ChangeNotifier {
     return [..._places];
   }
 
+  final List _favoritePlaces = [];
+
+  List getFavPlaces() {
+    return [..._favoritePlaces];
+  }
+
   // fetching from sqlite
   Future<void> fetchAndSetData() async {
     final data = await DBHelper.fetchData('user_places');
@@ -34,26 +40,17 @@ class PlaceData extends ChangeNotifier {
         .toList();
 
     // adding items with isFavorite == 1 to _favoitePlaces
-    _favoritePlaces = data.map((place) {
-      if (place['isFavorite'] == 1) {
-        Place(
-          id: place['id'],
-          title: place['title'],
-          isFavorite: place['isFavorite'],
-          location: null,
-          image: File(
-            place['image'],
-          ),
+    for (var place in _places) {
+      if (place.isFavorite == 1) {
+        var index = _favoritePlaces.indexWhere(
+          (favPlace) => favPlace.id == place.id,
         );
+        if (index < 0 || index == -1) {
+          _favoritePlaces.add(place);
+        }
       }
-    }).toList();
+    }
     notifyListeners();
-  }
-
-  List _favoritePlaces = [];
-
-  List getFavPlaces() {
-    return [..._favoritePlaces];
   }
 
   Place getPlaceById(String id) {
@@ -62,20 +59,26 @@ class PlaceData extends ChangeNotifier {
 
   // SQLLITE VERSION
   void toggleToFav(String id) {
-    var status = 0;
+    var place = _places.firstWhere((place) => place.id == id);
+    var status = place.isFavorite;
     switch (checkFav(id)) {
       case true:
         status = 0;
+        _favoritePlaces.removeWhere((place) => place.id == id);
         break;
       case false:
         status = 1;
+        var index = _favoritePlaces.indexWhere(
+          (favPlace) => favPlace.id == place.id,
+        );
+        if (index < 0 || index == -1) {
+          _favoritePlaces.add(place);
+        }
         break;
       default:
     }
     DBHelper.toggleFavorite(id, status);
     notifyListeners();
-
-    print(status);
   }
 
   bool checkFav(String id) {
@@ -91,6 +94,7 @@ class PlaceData extends ChangeNotifier {
         break;
       default:
     }
+    // print(status);
     return status;
   }
 
