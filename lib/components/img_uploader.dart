@@ -132,10 +132,10 @@ class _ImageUploaderState extends State<ImageUploader> {
           height: 200,
           width: double.infinity,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: placeData.lightMode ? primaryColor : accentColor,
-              width: 1,
+              width: 2,
             ),
           ),
           // ignore: unnecessary_null_comparison

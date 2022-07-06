@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:native_fit/components/img_uploader.dart';
 import 'package:native_fit/constants/color.dart';
 import 'package:provider/provider.dart';
+import '../components/location_uploader.dart';
 import '../providers/place.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -25,6 +26,7 @@ class _AddPlaceState extends State<AddPlace> {
   }
 
   void submitDetails() {
+    // ignore: unnecessary_null_comparison
     if (textController.text.isEmpty || imageFile == null) {
       return;
     } else {
@@ -36,7 +38,6 @@ class _AddPlaceState extends State<AddPlace> {
         textController.text,
         imageFile,
       );
-
       Navigator.of(context).pop();
     }
   }
@@ -60,7 +61,7 @@ class _AddPlaceState extends State<AddPlace> {
       ),
       appBar: AppBar(
         backgroundColor: placeData.lightMode ? primaryColor : accentColor,
-        title: const Text('Add A Place'),
+        title: const Text('Add A Location'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -81,8 +82,6 @@ class _AddPlaceState extends State<AddPlace> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ImageUploader(selectedImage: selectedImage),
-              const SizedBox(height: 10),
               TextFormField(
                 controller: textController,
                 style: TextStyle(
@@ -101,11 +100,11 @@ class _AddPlaceState extends State<AddPlace> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
                       color: placeData.lightMode ? primaryColor : accentColor,
-                      width: 1,
+                      width: 2,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(
                       color: placeData.lightMode ? primaryColor : accentColor,
                       width: 2,
@@ -113,6 +112,11 @@ class _AddPlaceState extends State<AddPlace> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
+              LocationUploader(),
+              const SizedBox(height: 10),
+              ImageUploader(selectedImage: selectedImage),
+              const SizedBox(height: 10),
             ],
           ),
         ),

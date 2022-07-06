@@ -38,18 +38,6 @@ class PlaceData extends ChangeNotifier {
           ),
         )
         .toList();
-
-    // adding items with isFavorite == 1 to _favoitePlaces
-    for (var place in _places) {
-      if (place.isFavorite == 1) {
-        var index = _favoritePlaces.indexWhere(
-          (favPlace) => favPlace.id == place.id,
-        );
-        if (index < 0 || index == -1) {
-          _favoritePlaces.add(place);
-        }
-      }
-    }
     notifyListeners();
   }
 
@@ -68,12 +56,7 @@ class PlaceData extends ChangeNotifier {
         break;
       case false:
         status = 1;
-        var index = _favoritePlaces.indexWhere(
-          (favPlace) => favPlace.id == place.id,
-        );
-        if (index < 0 || index == -1) {
-          _favoritePlaces.add(place);
-        }
+        _favoritePlaces.add(place);
         break;
       default:
     }
