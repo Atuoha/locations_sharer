@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import '../constants/color.dart';
+import '../helpers/location_helper.dart';
 import '../providers/place.dart';
 
 class LocationUploader extends StatefulWidget {
@@ -39,6 +41,16 @@ class _LocationUploaderState extends State<LocationUploader> {
       );
     }
 
+    Future _getCurrentLocation() async {
+      final location = await Location().getLocation();
+      setState(() {
+        locationUrl = LocationHelper.generatedStaticMapPreview(
+          location.latitude,
+          location.longitude,
+        );
+      });
+    }
+
     return Column(
       children: [
         Container(
@@ -72,11 +84,9 @@ class _LocationUploaderState extends State<LocationUploader> {
             kElevatedButton(
               'Current Location',
               Icons.location_on,
-              () {
-                print('Current Location');
-              },
+              () => _getCurrentLocation(),
             ),
-           const  SizedBox(width: 5),
+            const SizedBox(width: 5),
             kElevatedButton(
               'Select From Map',
               Icons.map,

@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.native_fit">
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    
    <application
         android:label="native_fit"
         android:name="${applicationName}"
@@ -30,5 +33,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+                <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value=""/>
     </application>
 </manifest>
