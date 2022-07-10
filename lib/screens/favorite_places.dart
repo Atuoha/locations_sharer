@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_fit/constants/color.dart';
-import 'package:native_fit/models/place.dart';
 import 'package:provider/provider.dart';
 import '../components/single_place.dart';
 import '../providers/place.dart';

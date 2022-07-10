@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:native_fit/screens/map_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants/color.dart';
 import '../helpers/location_helper.dart';
@@ -49,6 +51,29 @@ class _LocationUploaderState extends State<LocationUploader> {
           location.longitude,
         );
       });
+      print(location.latitude);
+      print(location.longitude);
+    }
+
+    Future<void> selectFromMap() async {
+      final selectedLocation = await Navigator.of(context).push<LatLng>(
+        MaterialPageRoute(
+          builder: (context) => const MapScreen(
+            isSelecting: false,
+          ),
+        ),
+      );
+
+      if (selectedLocation == null) {
+        return;
+      }
+      setState(() {
+        locationUrl = LocationHelper.generatedStaticMapPreview(
+          selectedLocation.latitude,
+          selectedLocation.longitude,
+        );
+      });
+      print(selectedLocation.latitude);
     }
 
     return Column(
@@ -90,9 +115,7 @@ class _LocationUploaderState extends State<LocationUploader> {
             kElevatedButton(
               'Select From Map',
               Icons.map,
-              () {
-                print('From Map Location');
-              },
+              () => selectFromMap(),
             ),
           ],
         )
