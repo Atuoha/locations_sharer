@@ -7,14 +7,12 @@ import '../providers/place.dart';
 
 class MapScreen extends StatefulWidget {
   final PlaceLocation initLocation;
-  final bool isSelecting;
   const MapScreen({
     Key? key,
     this.initLocation = const PlaceLocation(
       latitude: 5.4412096,
       longitude: 7.0325381,
     ),
-    this.isSelecting = false,
   }) : super(key: key);
 
   @override
@@ -33,18 +31,9 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     var placeData = Provider.of<PlaceData>(context);
 
-    // Set<Marker> markers = Set();
-    // markers.add(
-    //   Marker(
-    //     markerId: const MarkerId('m1'),
-    //     position: pickedLocation,
-    //   ),
-    // );
-
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: widget.isSelecting
-          ? FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
               backgroundColor: placeData.lightMode ? primaryColor : accentColor,
               onPressed: pickedLocation == null
                   ? null
@@ -58,7 +47,7 @@ class _MapScreenState extends State<MapScreen> {
                 color: Colors.white,
               ),
             )
-          : null,
+         ,
       extendBodyBehindAppBar: true,
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
@@ -77,7 +66,7 @@ class _MapScreenState extends State<MapScreen> {
                   position: pickedLocation!,
                 )
               },
-        onTap: widget.isSelecting ? selectLocation : null,
+        onTap: selectLocation ,
       ),
     );
   }

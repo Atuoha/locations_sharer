@@ -77,7 +77,6 @@ class _LocationUploaderState extends State<LocationUploader> {
       final selectedLocation = await Navigator.of(context).push<LatLng>(
         MaterialPageRoute(
           builder: (context) => const MapScreen(
-            isSelecting: false,
           ),
         ),
       );
@@ -101,7 +100,7 @@ class _LocationUploaderState extends State<LocationUploader> {
               width: 2,
             ),
           ),
-          height: 300,
+          height: 270,
           child: locationUrl.isEmpty
               ? Center(
                   child: Image.asset(
