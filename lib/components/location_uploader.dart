@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -8,7 +9,11 @@ import '../helpers/location_helper.dart';
 import '../providers/place.dart';
 
 class LocationUploader extends StatefulWidget {
-  const LocationUploader({Key? key}) : super(key: key);
+  final Function selectLocation;
+  const LocationUploader({
+    Key? key,
+    required this.selectLocation,
+  }) : super(key: key);
 
   @override
   State<LocationUploader> createState() => _LocationUploaderState();
@@ -43,16 +48,29 @@ class _LocationUploaderState extends State<LocationUploader> {
       );
     }
 
-    Future _getCurrentLocation() async {
-      final location = await Location().getLocation();
+    void performActions(double lat, double lng) {
+      // show preview
       setState(() {
         locationUrl = LocationHelper.generatedStaticMapPreview(
-          location.latitude,
-          location.longitude,
+          lat,
+          lng,
         );
       });
-      print(location.latitude);
-      print(location.longitude);
+      // send back data
+      widget.selectLocation(lat, lng);
+    }
+
+    Future _getCurrentLocation() async {
+      try {
+        final location = await Location().getLocation();
+        performActions(location.latitude!, location.longitude!);
+        if (kDebugMode) {
+          print(location.longitude);
+          print(location.latitude);
+        }
+      } catch (e) {
+        return;
+      }
     }
 
     Future<void> selectFromMap() async {
@@ -67,13 +85,10 @@ class _LocationUploaderState extends State<LocationUploader> {
       if (selectedLocation == null) {
         return;
       }
-      setState(() {
-        locationUrl = LocationHelper.generatedStaticMapPreview(
-          selectedLocation.latitude,
-          selectedLocation.longitude,
-        );
-      });
-      print(selectedLocation.latitude);
+      performActions(selectedLocation.latitude, selectedLocation.longitude);
+      if (kDebugMode) {
+        print(selectedLocation.latitude);
+      }
     }
 
     return Column(
@@ -86,7 +101,7 @@ class _LocationUploaderState extends State<LocationUploader> {
               width: 2,
             ),
           ),
-          height: 200,
+          height: 300,
           child: locationUrl.isEmpty
               ? Center(
                   child: Image.asset(

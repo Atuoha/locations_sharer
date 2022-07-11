@@ -41,12 +41,12 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         leading: Icon(
           Icons.pin_drop,
-          color: placeData.lightMode ? primaryColor : Colors.white38,
+          color: placeData.lightMode ? primaryColor : Colors.white,
         ),
         title: Text(
           'Location Sharer',
           style: TextStyle(
-              color: placeData.lightMode ? primaryColor : Colors.white38,
+              color: placeData.lightMode ? primaryColor : Colors.white,
               fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
               ),
               child: Icon(
                 Icons.favorite,
-                color: placeData.lightMode ? primaryColor : Colors.white38,
+                color: placeData.lightMode ? primaryColor : Colors.white,
               ),
             ),
           ),
@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
               },
               child: Icon(
                 placeData.lightMode ? Icons.light_mode : Icons.dark_mode,
-                color: placeData.lightMode ? primaryColor : Colors.white38,
+                color: placeData.lightMode ? primaryColor : Colors.white,
               ),
             ),
           ),
@@ -93,9 +93,8 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder(
-              future: placeData.fetchAndSetData(),
-              builder: (context, snapshot) => 
-                   Consumer<PlaceData>(
+                future: placeData.fetchAndSetData(),
+                builder: (context, snapshot) => Consumer<PlaceData>(
                       builder: (context, data, child) =>
                           data.getPlaces().isEmpty
                               ? Column(
@@ -138,6 +137,7 @@ class HomeScreen extends StatelessWidget {
                                           child: SinglePlace(
                                             id: data.id,
                                             title: data.title,
+                                            location: data.location,
                                             imageAsset: data.image,
                                           ),
                                         ),
@@ -145,12 +145,12 @@ class HomeScreen extends StatelessWidget {
                                       .toList(),
                                 ),
                     )
-                  // : Center(
-                  //     child: CircularProgressIndicator(
-                  //       color: placeData.lightMode ? primaryColor : accentColor,
-                  //     ),
-                  //   ),
-            ),
+                // : Center(
+                //     child: CircularProgressIndicator(
+                //       color: placeData.lightMode ? primaryColor : accentColor,
+                //     ),
+                //   ),
+                ),
           ),
         ],
       ),

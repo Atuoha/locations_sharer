@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:native_fit/models/place_location.dart';
 import 'package:provider/provider.dart';
 import '../constants/color.dart';
 import '../providers/place.dart';
@@ -8,11 +9,13 @@ class SinglePlace extends StatelessWidget {
   final String id;
   final File imageAsset;
   final String title;
+  final PlaceLocation location;
   const SinglePlace({
     Key? key,
     required this.id,
     required this.imageAsset,
     required this.title,
+    required this.location,
   }) : super(key: key);
 
   @override
@@ -37,7 +40,7 @@ class SinglePlace extends StatelessWidget {
             child: Image.file(
               imageAsset,
               fit: BoxFit.cover,
-              height: 120,
+              height: 90,
               width: double.infinity,
             ),
           ),
@@ -50,19 +53,44 @@ class SinglePlace extends StatelessWidget {
               },
               child: Icon(
                 placeData.checkFav(id) ? Icons.favorite : Icons.favorite_border,
-                color: placeData.lightMode ? primaryColor : accentColor,
+                color: placeData.lightMode ? primaryColor : Colors.white,
               ),
             ),
           ),
           Positioned(
-            bottom: 5,
+            bottom: 7,
             left: 5,
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 18, 
-                color: placeData.lightMode ? Colors.black54 : Colors.white,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: placeData.lightMode ? Colors.black54 : Colors.white,
+                  ),
+                ),
+                Wrap(
+                  children: [
+                    Icon(
+                      Icons.location_pin,
+                      size: 15,
+                      color: placeData.lightMode ? primaryColor : Colors.white,
+                    ),
+                    Text(
+                      'Nigeria',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color:
+                            placeData.lightMode ? Colors.black54 : Colors.white,
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
           Positioned(
@@ -74,7 +102,7 @@ class SinglePlace extends StatelessWidget {
               },
               child: Icon(
                 Icons.delete_forever,
-                color: placeData.lightMode ? primaryColor : accentColor,
+                color: placeData.lightMode ? primaryColor : Colors.white,
               ),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:native_fit/components/img_uploader.dart';
 import 'package:native_fit/constants/color.dart';
+import 'package:native_fit/models/place_location.dart';
 import 'package:provider/provider.dart';
 import '../components/location_uploader.dart';
 import '../providers/place.dart';
@@ -18,6 +19,7 @@ class AddPlace extends StatefulWidget {
 class _AddPlaceState extends State<AddPlace> {
   var textController = TextEditingController();
   File imageFile = File('');
+  PlaceLocation? selectedLocation;
 
   void selectedImage(File pickedFile) {
     setState(() {
@@ -25,9 +27,16 @@ class _AddPlaceState extends State<AddPlace> {
     });
   }
 
+  void selectLocation(double lat, double lng) {
+    selectedLocation = PlaceLocation(
+      latitude: lat,
+      longitude: lng,
+    );
+  }
+
   void submitDetails() {
     // ignore: unnecessary_null_comparison
-    if (textController.text.isEmpty || imageFile == null) {
+    if (textController.text.isEmpty || imageFile == null || selectedLocation == null) {
       return;
     } else {
       // Adding Place to List
@@ -37,6 +46,7 @@ class _AddPlaceState extends State<AddPlace> {
       ).addPlace(
         textController.text,
         imageFile,
+        selectedLocation!
       );
       Navigator.of(context).pop();
     }
@@ -113,7 +123,7 @@ class _AddPlaceState extends State<AddPlace> {
                 ),
               ),
               const SizedBox(height: 10),
-              LocationUploader(),
+              LocationUploader(selectLocation: selectLocation),
               const SizedBox(height: 10),
               ImageUploader(selectedImage: selectedImage),
               const SizedBox(height: 10),

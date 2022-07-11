@@ -97,6 +97,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         child: SinglePlace(
                           id: data.id,
                           title: data.title,
+                          location: data.location,
                           imageAsset: data.image,
                         ),
                       ),

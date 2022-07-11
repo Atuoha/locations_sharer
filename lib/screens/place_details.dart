@@ -28,6 +28,15 @@ class _PlaceDetailsState extends State<PlaceDetails> {
       ),
     );
     return Scaffold(
+           floatingActionButton: FloatingActionButton(
+              backgroundColor: placeData.lightMode ? primaryColor : accentColor,
+              onPressed: null,
+              child: const Icon(
+                Icons.delete_forever,
+                color: Colors.white,
+              ),
+            )
+          ,
       backgroundColor: placeData.lightMode ? Colors.white : Colors.black54,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -53,7 +62,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
               },
               child: Icon(
                 placeData.checkFav(id) ? Icons.favorite : Icons.favorite_border,
-                color: placeData.lightMode ? primaryColor : accentColor,
+                color: placeData.lightMode ? primaryColor : Colors.white,
               ),
             ),
           ),
@@ -65,13 +74,15 @@ class _PlaceDetailsState extends State<PlaceDetails> {
               },
               child: Icon(
                 placeData.lightMode ? Icons.light_mode : Icons.dark_mode,
-                color: placeData.lightMode ? primaryColor : accentColor,
+                color: placeData.lightMode ? primaryColor : Colors.white,
               ),
             ),
           ),
         ],
       ),
       body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           Container(
             height: size.height * 0.4,
@@ -85,14 +96,42 @@ class _PlaceDetailsState extends State<PlaceDetails> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.topLeft,
-            child: Text(
-              place.title,
-              style: TextStyle(
-                color: placeData.lightMode ? Colors.black54 : Colors.white,
-                fontSize: 28,
-              ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
+              children: [
+                Text(
+                  place.title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: placeData.lightMode ? Colors.black54 : Colors.white,
+                    fontSize: 40,
+                  ),
+                ),
+
+                 Wrap(
+                  children: [
+                    Icon(
+                      Icons.location_pin,
+                      size: 18,
+                      color: placeData.lightMode ? primaryColor : Colors.white,
+                    ),
+                    Text(
+                      'Nigeria',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color:
+                            placeData.lightMode ? Colors.black54 : Colors.white,
+                      ),
+                    ),
+                  ],
+                )
+
+              ],
             ),
           )
         ],

@@ -48,7 +48,11 @@ class _MapScreenState extends State<MapScreen> {
               backgroundColor: placeData.lightMode ? primaryColor : accentColor,
               onPressed: pickedLocation == null
                   ? null
-                  : () => Navigator.of(context).pop(pickedLocation),
+                  : () => Navigator.of(
+                        context,
+                      ).pop(
+                        pickedLocation,
+                      ),
               child: const Icon(
                 Icons.check,
                 color: Colors.white,
